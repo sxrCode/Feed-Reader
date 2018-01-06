@@ -22,23 +22,34 @@ $(function () {
         });
 
 
-        /* TODO:
+        /* 
          * 编写一个测试遍历 allFeeds 对象里面的所有的源来保证有链接字段而且链接不是空的。
          */
-        it("should has link", function () {
+        it("should has link and shouldn't be empty", function () {
             allFeeds.forEach(feed => {
                 expect(feed.url).toBeDefined();
+                expect(feed.url).not.toBeNull();
             });
         });
 
 
-        /* TODO:
+        /* 
          * 编写一个测试遍历 allFeeds 对象里面的所有的源来保证有名字字段而且不是空的。
          */
+
+        it("should has name field and shouldn't be empty", function () {
+            allFeeds.forEach(feed => {
+                expect(feed.name).toBeDefined();
+                expect(feed.name).not.toBeNull();
+            });
+        });
     });
 
 
     /* TODO: 写一个叫做 "The menu" 的测试用例 */
+    describe("The menu", function () {
+
+    });
 
     /* TODO:
      * 写一个测试用例保证菜单元素默认是隐藏的。你需要分析 html 和 css
@@ -52,6 +63,9 @@ $(function () {
      */
 
     /* TODO: 13. 写一个叫做 "Initial Entries" 的测试用例 */
+    describe("Initial Entries", function () {
+
+    });
 
     /* TODO:
      * 写一个测试保证 loadFeed 函数被调用而且工作正常，即在 .feed 容器元素
@@ -62,6 +76,9 @@ $(function () {
      */
 
     /* TODO: 写一个叫做 "New Feed Selection" 的测试用例 */
+    describe("New Feed Selection", function () {
+
+    });
 
     /* TODO:
      * 写一个测试保证当用 loadFeed 函数加载一个新源的时候内容会真的改变。
