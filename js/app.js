@@ -34,47 +34,49 @@ function init() {
  * 数组里面的位置引用。这个函数还支持一个回调函数作为第二个参数，
  * 这个回调函数会在所有事情都成功完成之后被调用。
 */
- function loadFeed(id, cb) {
-     var feedUrl = allFeeds[id].url,
-         feedName = allFeeds[id].name;
+function loadFeed(id, cb) {
+    var feedUrl = allFeeds[id].url,
+        feedName = allFeeds[id].name;
 
-     $.ajax({
-       type: "POST",
-       url: 'https://rsstojson.udacity.com/parseFeed',
-       data: JSON.stringify({url: feedUrl}),
-       contentType:"application/json",
-       success: function (result, status){
 
-                 var container = $('.feed'),
-                     title = $('.header-title'),
-                     entries = result.feed.entries,
-                     entriesLen = entries.length,
-                     entryTemplate = Handlebars.compile($('.tpl-entry').html());
+    $.ajax({
+        type: "POST",
+        url: 'https://rsstojson.udacity.com/parseFeed',
+        data: JSON.stringify({ url: feedUrl }),
+        contentType: "application/json",
+        success: function (result, status) {
+            console.log("post success!");
+            var container = $('.feed'),
+                title = $('.header-title'),
+                entries = result.feed.entries,
+                entriesLen = entries.length,
+                entryTemplate = Handlebars.compile($('.tpl-entry').html());
 
-                 title.html(feedName);   // 设置 header
-                 container.empty();      // 将之前的所有内容置空
+            title.html(feedName);   // 设置 header
+            container.empty();      // 将之前的所有内容置空
 
-                 /* 遍历所有我们通过 Google Feed Reader API 加载的条目，然后用
-                  * entryTemplate （上面用 Handerbars 创建的）解析每个条目。然后
-                  * 把转换得到的 HTML 添加到页面上的条目列表。
-                 */
-                 entries.forEach(function(entry) {
-                     container.append(entryTemplate(entry));
-                 });
+            /* 遍历所有我们通过 Google Feed Reader API 加载的条目，然后用
+             * entryTemplate （上面用 Handerbars 创建的）解析每个条目。然后
+             * 把转换得到的 HTML 添加到页面上的条目列表。
+            */
+            entries.forEach(function (entry) {
+                container.append(entryTemplate(entry));
+            });
 
-                 if (cb) {
-                     cb();
-                 }
-               },
-       error: function (result, status, err){
-                 // 如果有错，就不解析结果而是只运行回调函数。
-                 if (cb) {
-                     cb();
-                 }
-               },
-       dataType: "json"
-     });
- }
+            if (cb) {
+                cb();
+            }
+        },
+        error: function (result, status, err) {
+            // 如果有错，就不解析结果而是只运行回调函数。
+            if (cb) {
+                cb();
+            }
+        },
+        dataType: "json"
+    });
+
+}
 
 /* Google API: 加载 Feed Reader API 和定义当加载结束之后调用什么函数。*/
 google.setOnLoadCallback(init);
@@ -82,7 +84,7 @@ google.setOnLoadCallback(init);
 /* 所有的这些功能都严重依赖 DOM 。所以把我们的代码放在 $ 函数里面以保证在 DOM
  * 构建完毕之前它不会被执行。
  */
-$(function() {
+$(function () {
     var container = $('.feed'),
         feedList = $('.feed-list'),
         feedItemTemplate = Handlebars.compile($('.tpl-feed-list-item').html()),
@@ -93,7 +95,7 @@ $(function() {
      * feedItemTemplate （上面用 Handlebars 创建的）来解析那个源。
      * 然后添加到菜单里面的现有源列表。
     */
-    allFeeds.forEach(function(feed) {
+    allFeeds.forEach(function (feed) {
         feed.id = feedId;
         feedList.append(feedItemTemplate(feed));
 
@@ -103,7 +105,7 @@ $(function() {
     /* 当我们的源列表中的一个链接被点击的时候，我们想要隐藏菜单，加载该源，
      * 组织链接的默认点击行为发生。
      */
-    feedList.on('click', 'a', function() {
+    feedList.on('click', 'a', function () {
         var item = $(this);
 
         $('body').addClass('menu-hidden');
@@ -114,7 +116,7 @@ $(function() {
     /* 当菜单图标被点击的时候，我们需要在 body 元素上切换一个类名来实现
      * 菜单的显示状态的切换。
      */
-    menuIcon.on('click', function() {
+    menuIcon.on('click', function () {
         $('body').toggleClass('menu-hidden');
     });
 }());
