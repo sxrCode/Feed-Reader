@@ -25,7 +25,7 @@ $(function () {
         /* 
          * 编写一个测试遍历 allFeeds 对象里面的所有的源来保证有链接字段而且链接不是空的。
          */
-        it("should has link and shouldn't be empty", function () {
+        it('should has link and shouldn\'t be empty', function () {
             allFeeds.forEach(feed => {
                 expect(feed.url).toBeDefined();
                 expect(feed.url).not.toBeNull();
@@ -37,33 +37,46 @@ $(function () {
          * 编写一个测试遍历 allFeeds 对象里面的所有的源来保证有名字字段而且不是空的。
          */
 
-        it("should has name field and shouldn't be empty", function () {
+        it('should has name field and shouldn\'t be empty', function () {
             allFeeds.forEach(feed => {
                 expect(feed.name).toBeDefined();
                 expect(feed.name).not.toBeNull();
             });
         });
-    });
-
-
-    /* TODO: 写一个叫做 "The menu" 的测试用例 */
-    describe("The menu", function () {
 
     });
 
-    /* TODO:
-     * 写一个测试用例保证菜单元素默认是隐藏的。你需要分析 html 和 css
-     * 来搞清楚我们是怎么实现隐藏/展示菜单元素的。
-     */
 
-    /* TODO:
-     * 写一个测试用例保证当菜单图标被点击的时候菜单会切换可见状态。这个
-     * 测试应该包含两个 expectation ： 党点击图标的时候菜单是否显示，
-     * 再次点击的时候是否隐藏。
-     */
+    /*  写一个叫做 'The menu' 的测试用例 */
+    describe('The menu', function () {
 
-    /* TODO: 13. 写一个叫做 "Initial Entries" 的测试用例 */
-    describe("Initial Entries", function () {
+        /* TODO:
+         * 写一个测试用例保证菜单元素默认是隐藏的。你需要分析 html 和 css
+         * 来搞清楚我们是怎么实现隐藏/展示菜单元素的。
+         */
+        it('should be hidden by default', function () {
+            let bodyClasses = $('body').prop('className');
+            expect(bodyClasses).toContain('menu-hidden');
+        });
+
+        /* TODO:
+         * 写一个测试用例保证当菜单图标被点击的时候菜单会切换可见状态。这个
+         * 测试应该包含两个 expectation ： 党点击图标的时候菜单是否显示，
+         * 再次点击的时候是否隐藏。
+         */
+        it('should be able to toggle', function () {
+            let menuIcon = $('.menu-icon-link');
+            let bodyClasses = $('body').prop('className');
+
+            $(menuIcon).trigger('click');
+            expect($('body').prop('className')).not.toContain('menu-hidden');
+            $(menuIcon).trigger('click');
+            expect($('body').prop('className')).toContain('menu-hidden');
+        });
+    });
+
+    /* TODO: 13. 写一个叫做 'Initial Entries' 的测试用例 */
+    describe('Initial Entries', function () {
 
     });
 
@@ -75,8 +88,8 @@ $(function () {
      * 和异步的 done() 函数。
      */
 
-    /* TODO: 写一个叫做 "New Feed Selection" 的测试用例 */
-    describe("New Feed Selection", function () {
+    /* TODO: 写一个叫做 'New Feed Selection' 的测试用例 */
+    describe('New Feed Selection', function () {
 
     });
 
