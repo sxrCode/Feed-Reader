@@ -78,6 +78,21 @@ $(function () {
     /* TODO: 13. 写一个叫做 'Initial Entries' 的测试用例 */
     describe('Initial Entries', function () {
 
+        beforeEach(function (done) {
+            let feedId = 0;
+            loadFeed(feedId, function () {
+                done();
+            });
+        }, 15000);
+
+        it("should  has one entry at least", function (done) {
+            let entrys = $('.feed').find('.entry');
+            expect(entrys).not.toBeNull();
+            expect(entrys.length).toBeGreaterThan(0);
+            done();
+        });
+
+
     });
 
     /* TODO:
