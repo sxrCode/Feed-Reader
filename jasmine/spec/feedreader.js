@@ -29,6 +29,7 @@ $(function () {
             allFeeds.forEach(feed => {
                 expect(feed.url).toBeDefined();
                 expect(feed.url).not.toBeNull();
+                expect(feed.url === '').toBe(false);
             });
         });
 
@@ -41,6 +42,7 @@ $(function () {
             allFeeds.forEach(feed => {
                 expect(feed.name).toBeDefined();
                 expect(feed.name).not.toBeNull();
+                expect(feed.name === '').toBe(false);
             });
         });
 
@@ -81,7 +83,6 @@ $(function () {
         beforeEach(function (done) {
             let feedId = 0;
             loadFeed(feedId, function () {
-                console.log('Initial Entries load feed 0!');
                 done();
             });
         }, 15000);
@@ -93,11 +94,10 @@ $(function () {
          * 记住 loadFeed() 函数是异步的所以这个而是应该使用 Jasmine 的 beforeEach
          * 和异步的 done() 函数。
          */
-        it("should  has one entry at least", function (done) {
+        it("should  has one entry at least", function () {
             let entrys = $('.feed').find('.entry');
             expect(entrys).not.toBeNull();
             expect(entrys.length).toBeGreaterThan(0);
-            done();
         });
 
 
@@ -109,42 +109,33 @@ $(function () {
     describe('New Feed Selection', function () {
 
         let container = $('.feed');
-        let oldCotent = $(container).html();
-
-        beforeAll(function (done) {
-            let feedId = 0;
-            loadFeed(feedId, function () {
-                oldCotent = $(container).html();
-                done();
-            });
-        }, 15000);
-
+        let oldCotent, newContent;
 
         beforeEach(function (done) {
-            let feedId = 1;
-            loadFeed(feedId, function () {
-                console.log('New Feed Selection load feed 1!');
-                done();
+            loadFeed(0, function () {
+                oldCotent = $(container).text();
+                loadFeed(1, function () {
+                    newContent = $(container).text();
+                    done();
+                });
             });
-        }, 15000);
+        }, 20000);
 
         /* 
         * 写一个测试保证当用 loadFeed 函数加载一个新源的时候内容会真的改变。
         * 记住，loadFeed() 函数是异步的。
         */
         it("should be change when loading new source", function (done) {
-            let newContent = $(container).html();
             expect(newContent).not.toEqual(oldCotent);
             done();
-        }, 15000);
+        });
 
 
-        afterAll(function (done) {
+        afterAll(function () {
             let feedId = 0;
             loadFeed(feedId, function () {
-                done();
             });
-        }, 15000);
+        });
     });
 
 
@@ -166,20 +157,19 @@ $(function () {
                 console.log('The Same Feed Selection load feed 2!');
                 done();
             });
-        }, 15000);
+        }, 20000);
 
         it("should not be change when loading the same source", function (done) {
             let newContent = $(container).html();
             expect(newContent).toEqual(oldCotent);
             done();
-        }, 15000);
+        });
 
-        afterAll(function (done) {
+        afterAll(function () {
             let feedId = 0;
             loadFeed(feedId, function () {
-                done();
             });
-        }, 15000);
+        });
     });
 
 }());
