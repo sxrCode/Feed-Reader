@@ -81,6 +81,7 @@ $(function () {
         beforeEach(function (done) {
             let feedId = 0;
             loadFeed(feedId, function () {
+                console.log('Initial Entries load feed 0!');
                 done();
             });
         }, 15000);
@@ -122,6 +123,7 @@ $(function () {
         beforeEach(function (done) {
             let feedId = 1;
             loadFeed(feedId, function () {
+                console.log('New Feed Selection load feed 1!');
                 done();
             });
         }, 15000);
@@ -161,6 +163,7 @@ $(function () {
         beforeEach(function (done) {
             let feedId = 2;
             loadFeed(feedId, function () {
+                console.log('The Same Feed Selection load feed 2!');
                 done();
             });
         }, 15000);
