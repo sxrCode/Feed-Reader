@@ -35,9 +35,15 @@ function init() {
  * 这个回调函数会在所有事情都成功完成之后被调用。
 */
 function loadFeed(id, cb) {
+    /**
+     * 判断id是否存在
+     */
+    if (id >= allFeeds.length) {
+        cb();
+    }
+
     var feedUrl = allFeeds[id].url,
         feedName = allFeeds[id].name;
-
 
     $.ajax({
         type: "POST",
@@ -45,7 +51,6 @@ function loadFeed(id, cb) {
         data: JSON.stringify({ url: feedUrl }),
         contentType: "application/json",
         success: function (result, status) {
-            console.log("post success!");
             var container = $('.feed'),
                 title = $('.header-title'),
                 entries = result.feed.entries,

@@ -2857,15 +2857,15 @@ getJasmineRequireObj().interface = function (jasmine, env) {
     },
 
     afterEach: function (afterEachFunction, timeout) {
-      return env.afterEach(afterEachFunctionm, timeout);
+      return env.afterEach(afterEachFunction, timeout);
     },
 
     beforeAll: function (beforeAllFunction, timeout) {
       return env.beforeAll(beforeAllFunction, timeout);
     },
 
-    afterAll: function (afterAllFunction) {
-      return env.afterAll(afterAllFunction);
+    afterAll: function (afterAllFunction, timeout) {
+      return env.afterAll(afterAllFunction, timeout);
     },
 
     expect: function (actual) {

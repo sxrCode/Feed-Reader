@@ -85,6 +85,13 @@ $(function () {
             });
         }, 15000);
 
+        /* TODO:
+         * 写一个测试保证 loadFeed 函数被调用而且工作正常，即在 .feed 容器元素
+         * 里面至少有一个 .entry 的元素。
+         *
+         * 记住 loadFeed() 函数是异步的所以这个而是应该使用 Jasmine 的 beforeEach
+         * 和异步的 done() 函数。
+         */
         it("should  has one entry at least", function (done) {
             let entrys = $('.feed').find('.entry');
             expect(entrys).not.toBeNull();
@@ -95,21 +102,80 @@ $(function () {
 
     });
 
-    /* TODO:
-     * 写一个测试保证 loadFeed 函数被调用而且工作正常，即在 .feed 容器元素
-     * 里面至少有一个 .entry 的元素。
-     *
-     * 记住 loadFeed() 函数是异步的所以这个而是应该使用 Jasmine 的 beforeEach
-     * 和异步的 done() 函数。
-     */
 
-    /* TODO: 写一个叫做 'New Feed Selection' 的测试用例 */
+
+    /* 写一个叫做 'New Feed Selection' 的测试用例 */
     describe('New Feed Selection', function () {
 
+        let container = $('.feed');
+        let oldCotent = $(container).html();
+
+        beforeAll(function (done) {
+            let feedId = 0;
+            loadFeed(feedId, function () {
+                oldCotent = $(container).html();
+                done();
+            });
+        }, 15000);
+
+
+        beforeEach(function (done) {
+            let feedId = 1;
+            loadFeed(feedId, function () {
+                done();
+            });
+        }, 15000);
+
+        /* 
+        * 写一个测试保证当用 loadFeed 函数加载一个新源的时候内容会真的改变。
+        * 记住，loadFeed() 函数是异步的。
+        */
+        it("should be change when loading new source", function (done) {
+            let newContent = $(container).html();
+            expect(newContent).not.toEqual(oldCotent);
+            done();
+        }, 15000);
+
+
+        afterAll(function (done) {
+            let feedId = 0;
+            loadFeed(feedId, function () {
+                done();
+            });
+        }, 15000);
     });
 
-    /* TODO:
-     * 写一个测试保证当用 loadFeed 函数加载一个新源的时候内容会真的改变。
-     * 记住，loadFeed() 函数是异步的。
-     */
+    describe("The Same Feed Selection", function () {
+        let container = $('.feed');
+        let oldCotent = $(container).html();
+
+        beforeAll(function (done) {
+            let feedId = 2;
+            loadFeed(feedId, function () {
+                oldCotent = $(container).html();
+                done();
+            });
+        }, 15000);
+
+        beforeEach(function (done) {
+            let feedId = 2;
+            loadFeed(feedId, function () {
+                done();
+            });
+        }, 15000);
+
+        it("should be change when loading new source", function (done) {
+            let newContent = $(container).html();
+            expect(newContent).toEqual(oldCotent);
+            done();
+        }, 15000);
+
+        afterAll(function (done) {
+            let feedId = 0;
+            loadFeed(feedId, function () {
+                done();
+            });
+        }, 15000);
+    });
+
 }());
